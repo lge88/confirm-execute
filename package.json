@@ -1,0 +1,20 @@
+{
+  "name": "confirm-execute",
+  "version": "0.0.0",
+  "description": "Confirm before executing bash commands.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/lge88/confirm-execute.git"
+  },
+  "keywords": [
+    "bash",
+    "confirm",
+    "batch"
+  ],
+  "author": "Li Ge",
+  "license": "MIT"
+}
