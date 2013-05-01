@@ -1,6 +1,7 @@
 var rl = require('readline');
 var fs = require('fs');
 var spawn = require('child_process').spawn;
+var write = fs.writeFileSync;
 
 function batch (commands, done) {
   if(!Array.isArray(commands) || commands.length < 1) {
@@ -29,14 +30,26 @@ function batch (commands, done) {
 exports.batch = batch;
 
 function confirmExecute(commands, done) {
-  console.log('Commands:');
-  console.log(commands.join('\n'));
-  rl.createInterface({
+  var rli = rl.createInterface({
     input: process.stdin,
     output: process.stdout
-  }).question('Execute above commands? [yes/no] ', function(ans) {
-    if (ans === 'yes') {
+  });
+  console.log('Commands:');
+  if (!Array.isArray(commands)) {
+    commands = [commands];
+  }
+  console.log(commands.join('\n'));
+  console.log('Action: 1) Execute; 2) Write to file; 3) Quit.');
+ 
+  rli.question('You choose: ', function(ans) {
+    if (ans === '1') {
       batch(commands, done);
+      process.exit();
+    } else if (ans === '2') {
+      rli.question('File path: ', function(filePath) {
+        write(filePath, commands.join('\n'), 'utf8');
+        process.exit();
+      });
     } else {
       console.log('Abort.');
       if (done && typeof done === 'function') {
